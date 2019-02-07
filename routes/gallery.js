@@ -7,7 +7,7 @@ router.get('/', (req,res)=>{
   .select('author', 'url', 'body')
   .then((data) => {
     
-    res.render('gallery/index', { data })
+    res.render('gallery/index', { data });
   });
 });
 
@@ -20,8 +20,8 @@ router.get('/:id', (req,res)=>{
   knex('gallery')
   .select('author', 'url', 'body')
   .where('id', '=', id)
-  .then((post) =>{
-    res.render('gallery/post', { post })
+  .then((post) => {
+    res.render('gallery/post', { post });
   });
 });
 
@@ -34,9 +34,9 @@ router.post('/gallery', (req,res)=>{
     author: body.author,
     body: body.body
   })
-  .then(() =>{
-    res.redirect('gallery')
-  })
+  .then(() => {
+    res.redirect('gallery');
+  });
 });
 
 router.get('/:id/edit', (req,res)=>{
@@ -44,8 +44,8 @@ router.get('/:id/edit', (req,res)=>{
   knex('gallery')
   .select('id', 'author', 'url', 'body')
   .where('id', '=', id)
-  .then((post) =>{
-    res.render('gallery/edit', post[0])
+  .then((post) => {
+    res.render('gallery/edit', post[0]);
   });
 });
 
@@ -55,10 +55,19 @@ router.put('/gallery/:id', (req,res)=>{
   knex('gallery')
   .where('id', '=', id)
   .update(body)
-  .then(() =>{
-    res.redirect(`/gallery/${id}`)
+  .then(() => {
+    res.redirect(`/gallery/${id}`);
   });
 });
-// router.delete('/gallery:id', (req,res) =>{});
+
+router.delete('/gallery:id', (req,res) =>{
+  let id = req.params.id;
+  knex('gallery')
+  .where('id', '=', id)
+  .del()
+  .then(() => {
+    res.redirect('/gallery');
+  });
+});
 
 module.exports = router;
