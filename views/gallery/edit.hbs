@@ -1,3 +1,17 @@
 <h1>Edit Post</h1>
 
-<form action="/"></form>
+<form action='/gallery/{{id}}?_method=PUT' method='POST' enctype="application/x-www-form-urlencoded">
+  <input type="hidden" name="_method" value="PUT">
+
+  <label for='author'>Author</label>
+  <input type='text' name='author' class='edit-author' value="{{author}}">
+
+  <label for="url">URL</label>
+  <input type="text" name="url" class="edit-url" value="{{url}}">
+
+  <label for="body">Description</label>
+  <input type="body" name='body' class="edit-body" value="{{body}}">
+  
+  <input type="submit" value="Submit">
+
+</form>

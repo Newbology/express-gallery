@@ -1,11 +1,8 @@
 <h1>Gallery image: </h1>
 {{#each post}}
 
-{{id}}
-<div class="author">{{author}}</div>
-
-<img src="{{url}}" alt="picture of nature">
-
-<div>{{body}}</div>
+<img src="{{url}}" alt="picture of a bear" class= "post-picture">
+<div class="post-author">By: {{author}}</div>
+<div class='post-description'>{{body}}</div>
 
 {{/each}}

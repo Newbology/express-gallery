@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../knex/index');
+const Gallery = require('../knex/models/Gallery')
 
 router.get('/', (req,res)=>{
-  knex('gallery')
-  .select('author', 'url', 'body')
+  Gallery
+  .fetchAll()
   .then((data) => {
-    
+   data = data.toJSON()
     res.render('gallery/index', { data });
   });
 });
@@ -15,59 +16,67 @@ router.get('/new', (req,res)=>{
   res.render('gallery/new')
 });
 
+
+router.post('/', (req,res)=>{
+  let body = req.body;
+  Gallery
+  .forge({
+    url: body.url,
+    author: body.author,
+    body: body.body
+  })
+  .save(null, {method: 'insert'})
+  .then(() => {
+    res.redirect('/gallery');
+  });
+});
+
 router.get('/:id', (req,res)=>{
   let id = req.params.id;
-  knex('gallery')
-  .select('author', 'url', 'body')
+  Gallery
   .where('id', '=', id)
+  .fetchAll()
   .then((post) => {
+    post = post.toJSON();
     res.render('gallery/post', { post });
   });
 });
 
 
-router.post('/gallery', (req,res)=>{
-  let body = req.body;
-  knex('gallery')
-  .insert({
-    url: body.url,
-    author: body.author,
-    body: body.body
-  })
-  .then(() => {
-    res.redirect('gallery');
-  });
-});
-
 router.get('/:id/edit', (req,res)=>{
   let id = req.params.id;
-  knex('gallery')
-  .select('id', 'author', 'url', 'body')
+ Gallery
   .where('id', '=', id)
+  .fetchAll()
   .then((post) => {
+    post = post.toJSON();
     res.render('gallery/edit', post[0]);
   });
 });
 
-router.put('/gallery/:id', (req,res)=>{
+router.delete('/:id', (req,res) =>{
+  let id = req.params.id;
+  Gallery
+  .where('id', '=', id)
+  .del()
+  .save()
+  .then(() => {
+    res.redirect('/');
+  });
+});
+
+router.put('/:id', (req,res)=>{
   let id = req.params.id;
   let body = req.body;
-  knex('gallery')
+  delete body._method;
+  Gallery
   .where('id', '=', id)
   .update(body)
+  .save()
   .then(() => {
     res.redirect(`/gallery/${id}`);
   });
 });
 
-router.delete('/gallery:id', (req,res) =>{
-  let id = req.params.id;
-  knex('gallery')
-  .where('id', '=', id)
-  .del()
-  .then(() => {
-    res.redirect('/gallery');
-  });
-});
 
 module.exports = router;
