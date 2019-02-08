@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'))
 app.use(methodOverride('_method'));
 app.use('/gallery', gallery);
+
 app.use(session({
   store: new redis({ url: 'redis://localhost:6379', logErrors:true}),
   secret: SESSION_SECRET,
@@ -30,6 +31,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: ENV === 'production'}
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
@@ -129,7 +131,7 @@ app.get('/secret', isAuthenticated, (req, res) => {
   console.log('req.user: ', req.user);
   console.log('req.user id', req.user.id);
   console.log('req.username', req.user.username);
-  res.send('you found the secret!');
+  res.redirect('gallery');
 });
 
 

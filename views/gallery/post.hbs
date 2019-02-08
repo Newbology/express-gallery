@@ -1,8 +1,42 @@
-<h1>Gallery image: </h1>
-{{#each post}}
+<section id="header-container">
+    <div class="header">
+  <div class="title"> <a href="/gallery">_BEARTEK</a></div>
 
+  <div class="header-nav">
+    <div class="login">
+      <a href="/login.html" class="login">
+        Login </a>
+    </div>
+
+    <div class="register">
+      <a href="/register.html" class="register">Register</a>
+    </div>
+
+    <div class="home">
+      <a href="/gallery" class="home">Home</a>
+    </div>
+ </div>
+ </div>
+  
+<section class="post-wrapper">  
+{{#each photo}}
+<div class="post-container">
 <img src="{{url}}" alt="picture of a bear" class= "post-picture">
 <div class="post-author">By: {{author}}</div>
 <div class='post-description'>{{body}}</div>
-
+</div>  
 {{/each}}
+</section>
+
+<section class="photo-list-wrapper">
+{{#each photoList}}
+  <div class="photo-list-container">
+    <a href="/gallery/{{id}}">
+    <img src="{{url}}" alt="picture of a bear" class= "photo-list-picture">
+
+    <div class="photo-list-authors">by: {{author}}</div>
+  </a>
+  </div>
+  {{/each}}
+</section>
+</section>

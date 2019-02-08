@@ -1,7 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../knex/index');
 const Gallery = require('../knex/models/Gallery')
+
+let renderData = {
+  photo: null,
+  photList: null
+}
+
+function isAuthenticated (req, res, next) {
+  if(req.isAuthenticated()) { next();}
+  else { res.redirect('/'); }
+};
+
 
 router.get('/', (req,res)=>{
   Gallery
@@ -17,16 +27,19 @@ router.get('/new', (req,res)=>{
 });
 
 
-router.post('/', (req,res)=>{
+router.post('/', isAuthenticated, (req,res)=>{
+
   let body = req.body;
   Gallery
   .forge({
+    // user_id: req.user.id,
     url: body.url,
     author: body.author,
     body: body.body
   })
   .save(null, {method: 'insert'})
   .then(() => {
+
     res.redirect('/gallery');
   });
 });
@@ -34,11 +47,16 @@ router.post('/', (req,res)=>{
 router.get('/:id', (req,res)=>{
   let id = req.params.id;
   Gallery
+  .fetchAll()
+  .then((photoList) =>{
+  return renderData.photoList = photoList.toJSON()
+  });
+  Gallery
   .where('id', '=', id)
   .fetchAll()
-  .then((post) => {
-    post = post.toJSON();
-    res.render('gallery/post', { post });
+  .then((photo) => {
+  renderData.photo = photo.toJSON()
+    res.render('gallery/post', renderData );
   });
 });
 

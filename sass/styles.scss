@@ -1,24 +1,158 @@
-.wrapper{
+*{
+  box-sizing:border-box;
+
+}
+body{
+  background:#d2dae2;
+  // background: url('./../public/assets/old_moon.png');
+}
+#header-container{
+  height:80vh;
+  display:grid;
+  grid-template-columns: 6% repeat(5, 12%)2% 30% auto;
+  grid-template-rows: 20% 10% auto;
+  margin-top:5%;
+}
+.header{
+  grid-column: 2/9;
+  grid-row:1/2;
+  display:grid;
+  grid-template-columns: repeat(6, 13.1%) 19% auto;
+  border-top:2px dotted black;
+}
+a{
+  display:inline-block;
+  color:black;
+  text-decoration: none;
+}
+// a:hover{
+//   color:white;
+//   background:black;
+// }
+a:active{
+  color:blue;
+  background:white;
+}
+
+.title{
+  text-align:center;
+  font-size:70px;
+  grid-column:1/3;
+  margin:auto;
+  border-bottom:1px solid black;
+}
+
+.header-nav{
+  display:flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  grid-column:6/8;
+margin-left:1%;
+  font-size:20px;
+  text-align:center;
+  margin-right:15%;
+  
+  .login:hover{
+    color:white;
+    background:black;
+  }
+  .login:active{
+    color:red;
+    background:grey;
+  }
+  .login{
+    border:1px solid black;
+    margin:auto;
+    width:97px;
+    order:2;
+    }
+    .register:hover{
+      color:white;
+      background:black;
+    }
+    .register:active{
+      color:red;
+      background:grey;
+    }
+    .register{
+    border: 1px solid black;
+    margin:auto;
+
+    width:97px;
+      order:3; 
+    }
+    .home:hover{
+        color:white;
+        background:black;
+    }
+    .home:active{
+      color:red;
+      background:grey;
+    }
+    .home{
+      border:1px solid black;
+      margin:auto;
+      width:97px;
+      order:1;
+    }
+}
+
+.intro-container{
+  border-left: 1px solid black;
+  grid-column:8/9;
+  grid-row:3/5;
+  margin:auto;
+  margin-right:15%;
+  font-size:18px;
+  .intro{
+    margin-left:5%;
+  }
+}
+
+#header-picture{
+grid-column: 2/4;
+grid-row:3/5;
+width:710px;
+}
+
+
+
+.gallery-wrapper{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  
+  width:80%;
+  margin:auto;
+  margin-top: 2%;
 }
-.post{
-  border: 1px solid black;
-  width: 310px;
-  height: 40vh;
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
-  
+.gallery-container{
+  margin-top:5%;
+  width:300px;
+}
+.gallery{
+  margin-top: 5%;
 }
 .index-picture{
   width: 300px;
   height: 30vh;
 }
-// .post{
-//   display:flex;
-//   flex-direction: column;
-// }
+.post-wrapper{
+  grid-column:2/4;
+  grid-row:3/5;
+  width:720px;
+  border:1px solid black;
+}
+.post-picture{
+  width:100%;;
+}
+
+.photo-list-wrapper{
+  grid-column: 8/9;
+  grid-row:3/5;
+  overflow-y:auto;
+}
+.photo-list-picture{
+  width:300px;
+  margin-top:5%;
+}

@@ -4,7 +4,7 @@ class Gallery extends bookshelf.Model{
   get tableName() {return 'gallery';}
   get hasTimestamps() {return false;}
 
-  users() {
+  users(){
     return this.belongsTo('User')
   }
 }
