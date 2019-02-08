@@ -1,11 +1,13 @@
 <h1>_BOLOGNETEK</h1>
 
+<section class="wrapper">
 {{#each data}}
+  <div class="post">
+    <img src="{{url}}" alt="Grizzly bear in nature" class="index-picture">
 
-
-<img src="{{url}}" alt="picture of nature" class="index-picture">
-
-<div class="index-author">{{author}}</div>
-<div class="index-author">{{body}}</div>
-
+    <div class="index-author">By: {{author}}</div>
+    <div class="index-author">{{body}}
+    </div>
+  </div>
 {{/each}}
+</section>

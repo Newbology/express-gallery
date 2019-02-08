@@ -70,9 +70,9 @@ router.put('/:id', (req,res)=>{
   let body = req.body;
   delete body._method;
   Gallery
+  .forge(body)
   .where('id', '=', id)
-  .update(body)
-  .save()
+  .save(null, {method: 'update'})
   .then(() => {
     res.redirect(`/gallery/${id}`);
   });

@@ -6,13 +6,17 @@ const methodOverride = require('method-override');
 const gallery = require('./routes/gallery');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const app = express();
+const bcrypt = require('bcryptjs');
+const redis = require('connect-redis')(session);
 
 const User = require('./knex/models/User');
 const Gallery = require('./knex/models/Gallery')
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.NODE_ENV || 'development';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'keyboard cat';
+const saltRounds = 12;
+
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -20,6 +24,7 @@ app.use(express.static('public'))
 app.use(methodOverride('_method'));
 app.use('/gallery', gallery);
 app.use(session({
+  store: new redis({ url: 'redis://localhost:6379', logErrors:true}),
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
@@ -65,11 +70,14 @@ passport.use(new LocalStrategy(function(username, password, done) {
     if (user === null) {
       return done(null, false, {message: 'bad username or password'});
     }
-    else if (password === user.password ) {
-      return done(null, user);
-    }
     else {
-      return done(null, false, {message: 'bad username or password'});
+      bcrypt.compare(password, user.password)
+      .then((res) => {
+        if (res) { return done(null, user); }
+        else {
+          return done(null, false, {message: 'bad username or password'});
+        }
+      });
     }
   })
   .catch(err => {
@@ -79,18 +87,26 @@ passport.use(new LocalStrategy(function(username, password, done) {
 }));
 
 app.post('/register', (req, res) => {
-  return new User({
-    username: req.body.username,
-    password: req.body.password
-  })
-  .save()
-  .then((user) => {
-    console.log(user);
-    res.redirect('/login.html');
-  })
-  .catch((err) => {
-    console.log(err);
-    return res.send('Error Creating account');
+  bcrypt.genSalt(saltRounds,(err, salt) => {
+    if (err) { console.log(err); }
+    
+    bcrypt.hash(req.body.password, salt, function(err, hash){
+      if (err) { console.log(err); }
+
+      return new User({
+        username: req.body.username,
+        password: hash
+      })
+      .save()
+      .then((user) => {
+        console.log(user);
+        res.redirect('/login.html');
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.send('Error Creating account');
+      });
+    });
   });
 });
 
