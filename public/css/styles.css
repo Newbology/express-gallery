@@ -2,12 +2,12 @@
   box-sizing: border-box; }
 
 body {
-  background: #d2dae2; }
+  background: url("/assets/old_moon.png"); }
 
 #header-container {
   height: 80vh;
   display: grid;
-  grid-template-columns: 6% repeat(5, 12%) 2% 30% auto;
+  grid-template-columns: 6% repeat(5, 12%) 2% 25% auto;
   grid-template-rows: 20% 10% auto;
   margin-top: 5%; }
 

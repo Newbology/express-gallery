@@ -22,10 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'))
 app.use(methodOverride('_method'));
-app.use('/gallery', gallery);
 
 app.use(session({
-  store: new redis({ url: 'redis://localhost:6379', logErrors:true}),
+  store: new redis({ url: 'redis://redis-server:6379', logErrors:true}),
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
@@ -36,6 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
+
 
 passport.serializeUser((user, done) => {
   console.log('serializing');
@@ -139,6 +139,7 @@ app.get('/smoke', (req, res) => {
   return res.send('smoke test');
 });
 
+app.use('/gallery', gallery);
 
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);

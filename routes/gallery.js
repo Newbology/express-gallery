@@ -18,6 +18,7 @@ router.get('/', (req,res)=>{
   .fetchAll()
   .then((data) => {
    data = data.toJSON()
+
     res.render('gallery/index', { data });
   });
 });
@@ -28,18 +29,16 @@ router.get('/new', (req,res)=>{
 
 
 router.post('/', isAuthenticated, (req,res)=>{
-
   let body = req.body;
   Gallery
   .forge({
-    // user_id: req.user.id,
+    user_id: req.user.id,
     url: body.url,
     author: body.author,
     body: body.body
   })
   .save(null, {method: 'insert'})
   .then(() => {
-
     res.redirect('/gallery');
   });
 });
