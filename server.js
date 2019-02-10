@@ -8,6 +8,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcryptjs');
 const redis = require('connect-redis')(session);
+const flash = require('connect-flash');
 
 const User = require('./knex/models/User');
 const Gallery = require('./knex/models/Gallery')
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'))
 app.use(methodOverride('_method'));
+app.use(flash());
 
 app.use(session({
   store: new redis({ url: 'redis://redis-server:6379', logErrors:true}),
@@ -102,7 +104,8 @@ app.post('/register', (req, res) => {
       .save()
       .then((user) => {
         console.log(user);
-        res.redirect('/login.html');
+        req.flash('authErr', 'You have successfully created an account!')
+        res.redirect('/login');
       })
       .catch((err) => {
         console.log(err);
@@ -112,9 +115,18 @@ app.post('/register', (req, res) => {
   });
 });
 
+app.get('/login', (req, res) => {
+  res.render('gallery/login', {message: req.flash('authErr')});
+});
+
+app.get('/register', (req, res) => {
+  res.render('gallery/register')
+});
+
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/secret',
-  failureRedirect: '/login.html'
+  failureRedirect: '/login',
+  failureFlash: true
 }));
 
 app.get('/logout', (req, res) => {
@@ -122,9 +134,10 @@ app.get('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+
 function isAuthenticated (req, res, next) {
   if(req.isAuthenticated()) { next();}
-  else { res.redirect('/'); }
+  else {req.flash('authErr', 'Must be logged in to do that'), res.redirect('/login'); }
 }
 
 app.get('/secret', isAuthenticated, (req, res) => {

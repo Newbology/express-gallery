@@ -33,9 +33,9 @@ router.post('/', isAuthenticated, (req,res)=>{
   Gallery
   .forge({
     user_id: req.user.id,
-    url: body.url,
-    author: body.author,
-    body: body.body
+    url: req.body.url,
+    author: req.body.author,
+    body: req.body.body
   })
   .save(null, {method: 'insert'})
   .then(() => {
