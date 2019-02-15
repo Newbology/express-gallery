@@ -1,10 +1,10 @@
-
 <div class="posts">
 <section class="post-wrapper">  
 {{#each photo}}
 <div class="post-container">
 <img src="{{url}}" alt="picture of a bear" class= "post-picture">
 <div class="post-author">By: {{author}}</div>
+<div class="edit-picture"><a href="/gallery/{{id}}/edit">Edit</a></div>
 <div class='post-description'>{{body}}</div>
 </div>  
 {{/each}}

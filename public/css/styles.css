@@ -25,6 +25,11 @@ a {
 .sign-up-here {
   color: blue; }
 
+.add-wrapper {
+  margin: auto; }
+  .add-wrapper .add-to-gallery {
+    width: 20%; }
+
 a:active {
   color: blue;
   background: white; }
@@ -35,7 +40,8 @@ a:active {
   grid-column: 4/6;
   margin: auto;
   margin-right: 5%;
-  border-bottom: 1px solid black; }
+  border-bottom: 1px solid black;
+  font-family: "Source Sans Pro"; }
 
 .header-nav {
   display: flex;
@@ -46,7 +52,8 @@ a:active {
   margin-left: 1%;
   font-size: 20px;
   text-align: center;
-  margin-right: 15%; }
+  margin-right: 15%;
+  font-family: "Source Code Pro"; }
   .header-nav .login:hover {
     color: white;
     background: black; }
@@ -107,7 +114,7 @@ a:active {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width: 80%;
+  width: 75%;
   margin: auto;
   margin-top: 2%; }
 

@@ -1,3 +1,6 @@
+$main-font: 'Source Sans Pro';
+$sub-font: 'Source Code Pro';
+
 *{
   box-sizing:border-box;
 
@@ -27,10 +30,12 @@ a{
 .sign-up-here{
   color:blue;
 }
-// a:hover{
-//   color:white;
-//   background:black;
-// }
+.add-wrapper{
+  margin:auto;
+  .add-to-gallery{
+    width:20%;
+  }
+}
 a:active{
   color:blue;
   background:white;
@@ -43,6 +48,7 @@ a:active{
   margin:auto;
   margin-right:5%;
   border-bottom:1px solid black;
+  font-family: $main-font
 }
 
 .header-nav{
@@ -55,6 +61,7 @@ a:active{
   font-size:20px;
   text-align:center;
   margin-right:15%;
+  font-family: $sub-font;
   
   .login:hover{
     color:white;
@@ -132,7 +139,7 @@ a:active{
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width:80%;
+  width:75%;
   margin:auto;
   margin-top: 2%;
 }

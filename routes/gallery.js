@@ -74,24 +74,25 @@ router.get('/:id/edit', (req,res)=>{
 router.delete('/:id', (req,res) =>{
   let id = req.params.id;
   Gallery
-  .where('id', '=', id)
-  .del()
-  .save()
+  .where('user_id', id)
+  .fetchAll()
+  .destroy()
   .then(() => {
-    res.redirect('/');
+    res.redirect('/gallery');
   });
 });
 
 router.put('/:id', (req,res)=>{
-  let id = req.params.id;
+  let id = req.user.id;
+  let galleryId = req.params.id;
   let body = req.body;
   delete body._method;
   Gallery
   .forge(body)
-  .where('id', '=', id)
+  .where('user_id', '=', id)
   .save(null, {method: 'update'})
   .then(() => {
-    res.redirect(`/gallery/${id}`);
+    res.redirect(`/gallery/${galleryId}`);
   });
 });
 

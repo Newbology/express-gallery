@@ -16,9 +16,7 @@ const PORT = process.env.PORT || 8080;
 const ENV = process.env.NODE_ENV || 'development';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'keyboard cat';
 const saltRounds = 12;
-
 const app = express();
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'))
@@ -32,13 +30,10 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: ENV === 'production'}
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
-
-
 passport.serializeUser((user, done) => {
   console.log('serializing');
   return done(null, {
@@ -46,7 +41,6 @@ passport.serializeUser((user, done) => {
     username: user.username
   });
 });
-
 // after every request
 passport.deserializeUser((user, done) => {
   console.log('deserializing');
@@ -63,7 +57,6 @@ passport.deserializeUser((user, done) => {
     return done(err);
   });
 });
-
 passport.use(new LocalStrategy(function(username, password, done) {
   return new User({ username: username })
   .fetch()
@@ -89,14 +82,12 @@ passport.use(new LocalStrategy(function(username, password, done) {
     return done(err);
   });
 }));
-
 app.post('/register', (req, res) => {
   bcrypt.genSalt(saltRounds,(err, salt) => {
     if (err) { console.log(err); }
     
     bcrypt.hash(req.body.password, salt, function(err, hash){
       if (err) { console.log(err); }
-
       return new User({
         username: req.body.username,
         password: hash
@@ -146,14 +137,10 @@ app.get('/secret', isAuthenticated, (req, res) => {
   console.log('req.username', req.user.username);
   res.redirect('gallery');
 });
-
-
 app.get('/smoke', (req, res) => {
   return res.send('smoke test');
 });
-
 app.use('/gallery', gallery);
-
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });
